@@ -5,7 +5,6 @@ import {
   map,
   multiply,
   nth,
-  pipe,
   prop,
   zipObj,
 } from "ramda";
@@ -32,7 +31,6 @@ export const zipPlayerWithScore = (el) =>
   zipObj(["name", "score"], [el, Math.floor(Math.random() * 25)]);
 
 export const addSurnameAndDescription = (el) =>
-  pipe(
-    assoc("surname", oneRandomSurname()),
-    assoc("description", oneRandomPersonDescription())
-  )(el);
+  el
+  |> assoc("surname", oneRandomSurname())
+  |> assoc("description", oneRandomPersonDescription());

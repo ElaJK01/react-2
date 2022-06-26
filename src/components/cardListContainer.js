@@ -1,22 +1,36 @@
 import React, { useMemo } from "react";
 import { map, nth, zip } from "ramda";
 import Card from "./card";
+import styled from "styled-components";
 
-function CardListContainer({ imgList, cardButtonLinks }) {
+const CardList = styled.div`
+  display: flex;
+  margin: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 10px;
+  box-shadow: 0 4px 8px 2px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+`;
+
+const CardListContainer = ({ imgList, cardButtonLinks }) => {
   const zippedPhotosAndLinks = useMemo(
     () => zip(imgList, cardButtonLinks),
     [imgList, cardButtonLinks]
   );
   return (
-    <div className="card-list-container">
+    <CardList className="card-list-container">
       {map(
         (i) => (
           <Card key={i} img={nth(0, i)} link={nth(-1, i)} />
         ),
         zippedPhotosAndLinks
       )}
-    </div>
+    </CardList>
   );
-}
+};
 
 export default CardListContainer;
