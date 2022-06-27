@@ -6,6 +6,28 @@ import TeamsList from "../components/teamsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
 import { encaseP, fork } from "fluture";
+import styled from "styled-components";
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+`;
+
+const SectionTitle = styled.h3`
+  text-align: center;
+  margin-top: 50px;
+  box-sizing: border-box;
+`;
+
+const SectionState = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+`;
 
 const Teams = () => {
   const [teamsList, setTeamsList] = useState([]);
@@ -51,9 +73,9 @@ const Teams = () => {
 
   return (
     <div>
-      <section className="section">
-        <h3 className="section__title">Teams list</h3>
-        <div className="section__content">
+      <Section>
+        <SectionTitle>Teams list</SectionTitle>
+        <div>
           {!loading && !error && (
             <Pagination
               itemsPerPage={itemsPerPage}
@@ -64,35 +86,19 @@ const Teams = () => {
             />
           )}
           {error && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
+            <SectionState>
               <Error onClick={() => fetchTeams()} />
-            </div>
+            </SectionState>
           )}
           {loading ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
+            <SectionState>
               <Loading />
-            </div>
+            </SectionState>
           ) : (
             !error && <TeamsList list={currentData} />
           )}
         </div>
-      </section>
+      </Section>
     </div>
   );
 };

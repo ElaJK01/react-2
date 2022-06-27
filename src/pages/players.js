@@ -6,6 +6,27 @@ import PersonsList from "../components/personsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
 import { encaseP, fork } from "fluture";
+import styled from "styled-components";
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+`;
+const SectionTitle = styled.h3`
+  text-align: center;
+  margin-top: 50px;
+  box-sizing: border-box;
+`;
+
+const SectionState = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+`;
 
 const Players = () => {
   const [playersList, setPlayersList] = useState([]);
@@ -52,9 +73,9 @@ const Players = () => {
 
   return (
     <div>
-      <section className="section">
-        <h3 className="section__title">Players list</h3>
-        <div className="section__content">
+      <Section>
+        <SectionTitle>Players list</SectionTitle>
+        <div>
           {!loading && !error && (
             <Pagination
               itemsPerPage={itemsPerPage}
@@ -65,35 +86,19 @@ const Players = () => {
             />
           )}
           {error && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
+            <SectionState>
               <Error onClick={() => fetchPlayers()} />
-            </div>
+            </SectionState>
           )}
           {loading ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
+            <SectionState>
               <Loading />
-            </div>
+            </SectionState>
           ) : (
             !error && <PersonsList list={currentData} />
           )}
         </div>
-      </section>
+      </Section>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import {
 } from "./fakePlayersFunctions";
 import { teamFakeNameGenerator } from "./teamFakeNameGenerator";
 import { teamFakeDescription } from "./teamFakeDescription";
+import { attempt, fork } from "fluture";
 
 const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 2)), 1);
 
@@ -16,6 +17,12 @@ export const delay = () =>
       Math.floor(Math.random() * 2000) + 1000
     )
   );
+
+// export const delay = () => {
+//   attempt(() =>
+//     setTimeout(shouldThrowError(), Math.floor(Math.random() * 2000) + 1000)
+//   ) |> fork((reject) => reject("network error"))((resolve) => resolve);
+// };
 
 export const getPlayers = async (numberOfPlayers) => {
   try {

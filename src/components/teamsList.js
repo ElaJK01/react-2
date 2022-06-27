@@ -1,17 +1,87 @@
 import React, { useState } from "react";
 import { indexOf, map, prop } from "ramda";
 import Modal from "./modal";
+import styled from "styled-components";
+
+const ListContainer = styled.div`
+  display: flex;
+  margin: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 10px;
+  box-shadow: 0 4px 8px 2px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+`;
+
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin: 10px;
+  box-sizing: border-box;
+  flex-basis: 30%;
+  :hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const CardContent = styled.div`
+  padding: 2px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+  margin-left: 5px;
+`;
+
+const CardTitle = styled.h4`
+  margin: 0.5em;
+  padding: 0;
+`;
+
+const CardText = styled.p`
+  font-size: 10px;
+`;
+
+const CardButton = styled.button`
+  background: whitesmoke;
+  border-style: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 30%;
+  color: gray;
+  font-size: 10px;
+  text-align: center;
+  :hover {
+    background: white;
+    color: black;
+  }
+`;
+
+const ModalText = styled.p`
+  display: inline;
+  text-align: justify;
+  margin: 5px;
+  font-size: 10px;
+`;
 
 const TeamsList = ({ list }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="card-list-container">
+    <ListContainer>
       {map(
         (el) => (
-          <div key={indexOf(el, list)} className="card-list-container__card">
-            <div className="card-content">
-              <h4 className="card-content__title"> {prop("teamName", el)}</h4>
+          <Card key={indexOf(el, list)}>
+            <CardContent>
+              <CardTitle> {prop("teamName", el)}</CardTitle>
               <div
                 style={{
                   display: "flex",
@@ -35,22 +105,18 @@ const TeamsList = ({ list }) => {
                   }, prop("teamPlayers", el))}
                 </ul>
               </div>
-              <p className="card-content__text">
+              <CardText>
                 Description:
                 {prop("description", el)}
-              </p>
-              <button
-                type="button"
-                className="card-content__btn"
-                onClick={() => setShowModal(true)}
-              >
+              </CardText>
+              <CardButton onClick={() => setShowModal(true)}>
                 Details
-              </button>
-            </div>
+              </CardButton>
+            </CardContent>
             {showModal && (
               <Modal
                 message={
-                  <div>
+                  <ModalText>
                     <h5>Players</h5>
                     <div>
                       <ul style={{ listStyleType: "none" }}>
@@ -65,16 +131,16 @@ const TeamsList = ({ list }) => {
                         }, prop("teamPlayers", el))}
                       </ul>
                     </div>
-                  </div>
+                  </ModalText>
                 }
                 handleCloseModal={() => setShowModal(false)}
               />
             )}
-          </div>
+          </Card>
         ),
         list
       )}
-    </div>
+    </ListContainer>
   );
 };
 

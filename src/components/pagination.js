@@ -1,6 +1,85 @@
 import React, { useMemo } from "react";
 import { add, divide, map, range, subtract } from "ramda";
 import { DOTS } from "../constants";
+import styled, { css } from "styled-components";
+
+const PaginationContainer = styled.div`
+  background-color: whitesmoke;
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin: 5px;
+  box-sizing: border-box;
+  position: fixed;
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const disabledStyles = css`
+  pointer-events: none;
+  opacity: 0.5;
+`;
+
+const ArrowUp = styled.a`
+  ${({ disabled }) => disabled && disabledStyles}
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid darkgray;
+  background: whitesmoke;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  color: gray;
+  font-size: 10px;
+  text-align: center;
+  width: 0;
+  color: black;
+  text-decoration: none;
+`;
+
+const ArrowDown = styled.a`
+  ${({ disabled }) => disabled && disabledStyles}
+  background: whitesmoke;
+  border-style: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  color: gray;
+  font-size: 10px;
+  text-align: center;
+  color: black;
+  text-decoration: none;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid darkgray;
+`;
+
+const FloatingPanelButton = styled.a`
+  background: ${({ active }) => (active ? "rgba(0, 0, 0, 0.2)" : "whitesmoke")};
+  border-style: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  color: gray;
+  font-size: 10px;
+  text-align: center;
+  width: 80%;
+  color: black;
+  text-decoration: none;
+`;
 
 const paginationCount = (
   totalItems,
@@ -79,52 +158,28 @@ const Pagination = (props) => {
   const lastPage = paginationRange[paginationRange.length - 1];
 
   return (
-    <div className="card-list-container__floating-panel">
-      <a
-        className={
-          currentPage === 1
-            ? "disabled__btn link floating-panel__btn arrow-up"
-            : "link floating-panel__btn arrow-up"
-        }
-        onClick={onPrevious}
-      />
+    <PaginationContainer>
+      <ArrowUp disabled={currentPage === 1} onClick={onPrevious} />
       {map((page) => {
         if (page === DOTS) {
           return (
-            <a
-              className={
-                currentPage === page
-                  ? "link floating-panel__btn active"
-                  : "link floating-panel__btn"
-              }
-            >
+            <FloatingPanelButton active={currentPage === page}>
               &#8230;
-            </a>
+            </FloatingPanelButton>
           );
         }
         return (
-          <a
+          <FloatingPanelButton
             onClick={() => paginate(page)}
             key={page}
-            className={
-              currentPage === page
-                ? "link floating-panel__btn active"
-                : "link floating-panel__btn"
-            }
+            active={currentPage === page}
           >
             {page}
-          </a>
+          </FloatingPanelButton>
         );
       }, paginationRange)}
-      <a
-        className={
-          currentPage === lastPage
-            ? "disabled__btn link floating-panel__btn arrow-down active"
-            : "link floating-panel__btn arrow-down"
-        }
-        onClick={onNext}
-      />
-    </div>
+      <ArrowDown disabled={currentPage === lastPage} onClick={onNext} />
+    </PaginationContainer>
   );
 };
 
