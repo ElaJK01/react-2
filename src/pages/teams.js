@@ -5,7 +5,7 @@ import Pagination from "../components/pagination";
 import TeamsList from "../components/teamsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
-import { encase, encaseP, fork, pipe } from "fluture";
+import { encaseP, fork } from "fluture";
 
 const Teams = () => {
   const [teamsList, setTeamsList] = useState([]);
