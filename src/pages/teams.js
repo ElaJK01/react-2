@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { length, prop, slice, sortBy } from "ramda";
+import { curryN, length, prop, slice, sortBy } from "ramda";
 import { delay, getTeams } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import TeamsList from "../components/teamsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
+import { encase, encaseP, fork, pipe } from "fluture";
 
 const Teams = () => {
   const [teamsList, setTeamsList] = useState([]);
@@ -16,20 +17,24 @@ const Teams = () => {
   const sortByTeamName = sortBy(prop("teamName"));
 
   const fetchTeams = () => {
-    const getTeamsList = async () => {
-      setLoading(true);
-      setError(false);
-      try {
-        await delay();
-        const teamsList = await getTeams(11, 50);
-        setTeamsList(sortByTeamName(teamsList));
-      } catch (error) {
+    setLoading(true);
+    setError(false);
+    encaseP(delay)()
+      |> fork(() => {
         setError(true);
-      }
-      setLoading(false);
-    };
-
-    getTeamsList();
+        setLoading(false);
+      })(() => {
+        const curriedGetTeams = curryN(2, getTeams);
+        const fn = curriedGetTeams(20);
+        encaseP(fn)(20)
+          |> fork((rej) => {
+            setError(true);
+            setLoading(false);
+          })((res) => {
+            setTeamsList(sortByTeamName(res));
+            setLoading(false);
+          });
+      });
   };
 
   useEffect(() => fetchTeams(), [setTeamsList]);

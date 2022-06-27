@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { prop, sortBy, length, slice } from "ramda";
+import { prop, sortBy, length, slice, andThen, pipe, otherwise } from "ramda";
 import { delay, getPlayers } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import PersonsList from "../components/personsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
+import { encaseP, fork } from "fluture";
 
 const Players = () => {
   const [playersList, setPlayersList] = useState([]);
@@ -17,20 +18,22 @@ const Players = () => {
   const sortByName = sortBy(prop("name"));
 
   const fetchPlayers = () => {
-    const getPlayerList = async () => {
-      setLoading(true);
-      setError(false);
-      try {
-        await delay();
-        const playersList = await getPlayers(2000);
-        setPlayersList(sortBySurname(sortByName(playersList)));
-      } catch (error) {
+    setLoading(true);
+    setError(false);
+    encaseP(delay)()
+      |> fork(() => {
         setError(true);
-      }
-      setLoading(false);
-    };
-
-    getPlayerList();
+        setLoading(false);
+      })(() => {
+        encaseP(getPlayers)(2000)
+          |> fork((rej) => {
+            setError(true);
+            setLoading(false);
+          })((res) => {
+            setPlayersList(sortBySurname(sortByName(res)));
+            setLoading(false);
+          });
+      });
   };
 
   useEffect(() => {

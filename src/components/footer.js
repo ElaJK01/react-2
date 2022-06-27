@@ -1,8 +1,28 @@
 import React from "react";
+import styled from "styled-components";
+
+const FooterDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 30px;
+  background: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  :hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  }
+`;
+
+const FooterList = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Footer = () => (
-  <footer className="footer">
-    <div className="footer__list">
+  <FooterDiv>
+    <FooterList>
       <a className="link footer__link" href="#">
         Contact
       </a>
@@ -12,8 +32,8 @@ const Footer = () => (
       <a className="link footer__link" href="#">
         Security
       </a>
-    </div>
-    <div className="footer__list">
+    </FooterList>
+    <FooterList>
       <a className="link footer__link" href="#">
         More
       </a>
@@ -23,8 +43,8 @@ const Footer = () => (
       <a className="link footer__link" href="#">
         Lorem ipsum dolor
       </a>
-    </div>
-  </footer>
+    </FooterList>
+  </FooterDiv>
 );
 
 export default Footer;
