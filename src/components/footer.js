@@ -10,6 +10,8 @@ const FooterDiv = styled.div`
   background: whitesmoke;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 20px;
+  margin-top: auto;
+  overflow: hidden;
   :hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
   }

@@ -18,17 +18,11 @@ export const delay = () =>
     )
   );
 
-// export const delay = () => {
-//   attempt(() =>
-//     setTimeout(shouldThrowError(), Math.floor(Math.random() * 2000) + 1000)
-//   ) |> fork((reject) => reject("network error"))((resolve) => resolve);
-// };
-
 export const getPlayers = async (numberOfPlayers) => {
   try {
-    const players = map(oneRandomName, range(0, numberOfPlayers));
-    const playersList = map(zipPlayerWithScore, players);
-    return map(addSurnameAndDescription, playersList);
+    const players = range(0, numberOfPlayers) |> map(oneRandomName);
+    const playersList = players |> map(zipPlayerWithScore);
+    return playersList |> map(addSurnameAndDescription);
   } catch (e) {
     console.error(e);
   }
@@ -43,13 +37,11 @@ const addTeamName = (el) => ({
 export const getTeams = async (numberOfPlayers, numberOfTeams) => {
   try {
     const players = await Promise.all(
-      map(
-        async () => await getPlayers(numberOfPlayers),
-        range(0, numberOfTeams)
-      )
+      range(0, numberOfTeams)
+        |> map(async () => await getPlayers(numberOfPlayers))
     );
 
-    return map(addTeamName, players);
+    return players |> map(addTeamName);
   } catch {
     console.error("no teams");
   }

@@ -10,13 +10,13 @@ import {
 } from "ramda";
 import { first } from "./data";
 
-const namesList = (element) => map(prop("name"), element);
-const surnameList = (element) => map(prop("surname"), element);
-const descriptionList = (element) => map(prop("description"), element);
+const namesList = (element) => element |> map(prop("name"));
+const surnameList = (element) => element |> map(prop("surname"));
+const descriptionList = (element) => element |> map(prop("description"));
 
-const names = flatten(map(namesList, first));
-const surnames = flatten(map(surnameList, first));
-const descriptions = flatten(map(descriptionList, first));
+const names = first |> map(namesList) |> flatten;
+const surnames = first |> map(surnameList) |> flatten;
+const descriptions = first |> map(descriptionList) |> flatten;
 
 export const oneRandomName = () =>
   nth(Math.floor(multiply(Math.random(), length(names))), names);

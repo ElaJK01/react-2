@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { prop, sortBy, length, slice, andThen, pipe, otherwise } from "ramda";
+import { prop, sortBy, length, slice, multiply, add } from "ramda";
 import { delay, getPlayers } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import PersonsList from "../components/personsList";
@@ -62,9 +62,9 @@ const Players = () => {
   }, [setPlayersList]);
 
   const currentDataCount = () => {
-    const firstPageIndex = (currentPage - 1) * itemsPerPage;
-    const lastPageIndex = firstPageIndex + itemsPerPage;
-    return slice(firstPageIndex, lastPageIndex, playersList);
+    const firstPageIndex = multiply(currentPage - 1, itemsPerPage);
+    const lastPageIndex = add(firstPageIndex, itemsPerPage);
+    return playersList |> slice(firstPageIndex, lastPageIndex);
   };
 
   const currentData = currentDataCount();

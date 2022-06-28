@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { curryN, length, prop, slice, sortBy } from "ramda";
+import { add, curryN, length, multiply, prop, slice, sortBy } from "ramda";
 import { delay, getTeams } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import TeamsList from "../components/teamsList";
@@ -46,9 +46,9 @@ const Teams = () => {
         setError(true);
         setLoading(false);
       })(() => {
-        const curriedGetTeams = curryN(2, getTeams);
-        const fn = curriedGetTeams(20);
-        encaseP(fn)(20)
+        const curriedGetTeams = getTeams |> curryN(2);
+        const fn = curriedGetTeams(11);
+        encaseP(fn)(200)
           |> fork((rej) => {
             setError(true);
             setLoading(false);
@@ -62,9 +62,9 @@ const Teams = () => {
   useEffect(() => fetchTeams(), [setTeamsList]);
 
   const currentDataCount = () => {
-    const firstPageIndex = (currentPage - 1) * itemsPerPage;
-    const lastPageIndex = firstPageIndex + itemsPerPage;
-    return slice(firstPageIndex, lastPageIndex, teamsList);
+    const firstPageIndex = multiply(currentPage - 1, itemsPerPage);
+    const lastPageIndex = add(firstPageIndex, itemsPerPage);
+    return teamsList |> slice(firstPageIndex, lastPageIndex);
   };
 
   const currentData = currentDataCount();
