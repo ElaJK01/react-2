@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { prop, sortBy, length, slice, multiply, add } from "ramda";
+import { prop, sortBy, length, slice, multiply, add, map } from "ramda";
 import { delay, getPlayers } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import PersonsList from "../components/personsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
-import { encaseP, fork } from "fluture";
+import { encase, fork, and, attemptP, lastly } from "fluture";
 import styled from "styled-components";
 
 const Section = styled.div`
@@ -38,24 +38,15 @@ const Players = () => {
   const sortBySurname = sortBy(prop("surname"));
   const sortByName = sortBy(prop("name"));
 
-  const fetchPlayers = () => {
-    setLoading(true);
-    setError(false);
-    encaseP(delay)()
-      |> fork(() => {
-        setError(true);
-        setLoading(false);
-      })(() => {
-        encaseP(getPlayers)(2000)
-          |> fork((rej) => {
-            setError(true);
-            setLoading(false);
-          })((res) => {
-            setPlayersList(sortBySurname(sortByName(res)));
-            setLoading(false);
-          });
-      });
-  };
+  const fetchPlayers = () =>
+    encase(setError)(false)
+    |> and(encase(setLoading)(true))
+    |> and(attemptP(delay))
+    |> and(encase(getPlayers)(20))
+    |> map(sortBySurname)
+    |> map(sortByName)
+    |> lastly(encase(setLoading)(false))
+    |> fork(() => setError(true))(setPlayersList);
 
   useEffect(() => {
     fetchPlayers();

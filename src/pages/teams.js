@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { add, curryN, length, multiply, prop, slice, sortBy } from "ramda";
+import { add, curryN, length, map, multiply, prop, slice, sortBy } from "ramda";
 import { delay, getTeams } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import TeamsList from "../components/teamsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
-import { encaseP, fork } from "fluture";
+import { and, attemptP, encase, encaseP, fork, lastly } from "fluture";
 import styled from "styled-components";
 
 const Section = styled.div`
@@ -38,26 +38,17 @@ const Teams = () => {
 
   const sortByTeamName = sortBy(prop("teamName"));
 
-  const fetchTeams = () => {
-    setLoading(true);
-    setError(false);
-    encaseP(delay)()
-      |> fork(() => {
-        setError(true);
-        setLoading(false);
-      })(() => {
-        const curriedGetTeams = getTeams |> curryN(2);
-        const fn = curriedGetTeams(11);
-        encaseP(fn)(200)
-          |> fork((rej) => {
-            setError(true);
-            setLoading(false);
-          })((res) => {
-            setTeamsList(sortByTeamName(res));
-            setLoading(false);
-          });
-      });
-  };
+  const curriedGetTeams = getTeams |> curryN(2);
+  const fnCurriedTeams = curriedGetTeams(11);
+
+  const fetchTeams = () =>
+    encase(setError)(false)
+    |> and(encase(setLoading)(true))
+    |> and(attemptP(delay))
+    |> and(encaseP(fnCurriedTeams)(200))
+    |> map(sortByTeamName)
+    |> lastly(encase(setLoading)(false))
+    |> fork(() => setError(true))(setTeamsList);
 
   useEffect(() => fetchTeams(), [setTeamsList]);
 

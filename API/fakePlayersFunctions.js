@@ -10,9 +10,10 @@ import {
 } from "ramda";
 import { first } from "./data";
 
-const namesList = (element) => element |> map(prop("name"));
-const surnameList = (element) => element |> map(prop("surname"));
-const descriptionList = (element) => element |> map(prop("description"));
+const namesList = map(prop("name"));
+
+const surnameList = map(prop("surname"));
+const descriptionList = map(prop("description"));
 
 const names = first |> map(namesList) |> flatten;
 const surnames = first |> map(surnameList) |> flatten;

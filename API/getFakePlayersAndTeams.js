@@ -1,4 +1,4 @@
-import { multiply, map, lt, range } from "ramda";
+import { multiply, lt, range, map } from "ramda";
 import {
   addSurnameAndDescription,
   oneRandomName,
@@ -6,7 +6,6 @@ import {
 } from "./fakePlayersFunctions";
 import { teamFakeNameGenerator } from "./teamFakeNameGenerator";
 import { teamFakeDescription } from "./teamFakeDescription";
-import { attempt, fork } from "fluture";
 
 const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 2)), 1);
 
@@ -18,15 +17,11 @@ export const delay = () =>
     )
   );
 
-export const getPlayers = async (numberOfPlayers) => {
-  try {
-    const players = range(0, numberOfPlayers) |> map(oneRandomName);
-    const playersList = players |> map(zipPlayerWithScore);
-    return playersList |> map(addSurnameAndDescription);
-  } catch (e) {
-    console.error(e);
-  }
-};
+export const getPlayers = (numberOfPlayers) =>
+  range(0, numberOfPlayers)
+  |> map(oneRandomName)
+  |> map(zipPlayerWithScore)
+  |> map(addSurnameAndDescription);
 
 const addTeamName = (el) => ({
   teamName: teamFakeNameGenerator(),
