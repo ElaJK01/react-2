@@ -27,46 +27,47 @@ const disabledStyles = css`
   opacity: 0.5;
 `;
 
-const ArrowUp = styled.a`
+const ArrowUp = styled.button`
   ${({ disabled }) => disabled && disabledStyles}
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid darkgray;
-  background: whitesmoke;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  color: gray;
-  font-size: 10px;
-  text-align: center;
-  width: 0;
-  color: black;
-  text-decoration: none;
-`;
 
-const ArrowDown = styled.a`
-  ${({ disabled }) => disabled && disabledStyles}
-  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-style: none;
   border-radius: 5px;
   margin-bottom: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   color: gray;
-  font-size: 10px;
-  text-align: center;
-  color: black;
-  text-decoration: none;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 10px solid darkgray;
+  width: 100%;
+  cursor: pointer;
+  pointer-events: all;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
-const FloatingPanelButton = styled.a`
+const ArrowDown = styled.a`
+  ${({ disabled }) => disabled && disabledStyles}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  color: gray;
+  width: 100%;
+  cursor: pointer;
+  pointer-events: all;
+  transform: rotate(3.142rad);
+  :hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const FloatingPanelButton = styled.button`
   background: ${({ active }) => (active ? "rgba(0, 0, 0, 0.2)" : "whitesmoke")};
   border-style: none;
   border-radius: 5px;
@@ -79,6 +80,17 @@ const FloatingPanelButton = styled.a`
   width: 80%;
   color: black;
   text-decoration: none;
+  cursor: pointer;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const Svg = styled.svg`
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  overflow: hidden;
 `;
 
 const paginationCount = (
@@ -159,7 +171,14 @@ const Pagination = (props) => {
 
   return (
     <PaginationContainer>
-      <ArrowUp disabled={currentPage === 1} onClick={onPrevious} />
+      <ArrowUp disabled={currentPage === 1} onClick={onPrevious}>
+        <Svg viewBox="0 0 1024 1024">
+          <path
+            d="M170.666667 640l341.333333-341.333333 341.333333 341.333333-85.333333 85.333333-256-256-256 256z"
+            fill="#000000"
+          />
+        </Svg>
+      </ArrowUp>
       {map((page) => {
         if (page === DOTS) {
           return (
@@ -178,7 +197,14 @@ const Pagination = (props) => {
           </FloatingPanelButton>
         );
       }, paginationRange)}
-      <ArrowDown disabled={currentPage === lastPage} onClick={onNext} />
+      <ArrowDown disabled={currentPage === lastPage} onClick={onNext}>
+        <Svg viewBox="0 0 1024 1024">
+          <path
+            d="M170.666667 640l341.333333-341.333333 341.333333 341.333333-85.333333 85.333333-256-256-256 256z"
+            fill="#000000"
+          />
+        </Svg>
+      </ArrowDown>
     </PaginationContainer>
   );
 };

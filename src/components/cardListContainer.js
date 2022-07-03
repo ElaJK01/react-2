@@ -14,6 +14,9 @@ const CardList = styled.div`
   box-shadow: 0 4px 8px 2px rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   border-radius: 5px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const CardListContainer = ({ imgList, cardButtonLinks }) => {
@@ -22,7 +25,7 @@ const CardListContainer = ({ imgList, cardButtonLinks }) => {
     [imgList, cardButtonLinks]
   );
   return (
-    <CardList className="card-list-container">
+    <CardList>
       {map(
         (i) => (
           <Card key={i} img={nth(0, i)} link={nth(-1, i)} />

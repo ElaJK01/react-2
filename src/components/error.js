@@ -1,6 +1,7 @@
 import React from "react";
 import error from "../assets/error.png";
 import styled from "styled-components";
+import SmallImage from "./smallImage";
 
 const ErrorDiv = styled.div`
   display: flex;
@@ -30,7 +31,7 @@ const ButtonError = styled.button`
 const Error = ({ onClick }) => (
   <ErrorDiv>
     <ErrorParagraph>Sorry, couldn't get what you want!</ErrorParagraph>
-    <img src={error} alt="error" width={50} height={50} />
+    <SmallImage image={error} altName={"error"} />
     <ButtonError onClick={onClick}>Try again!</ButtonError>
   </ErrorDiv>
 );

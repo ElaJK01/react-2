@@ -9,6 +9,8 @@ const ModalRoot = styled.div`
   height: fit-content;
   top: 50%;
   left: 50%;
+  right: 50%;
+
   margin: -100px 0 0 -150px;
   display: flex;
   flex-direction: column;
@@ -17,6 +19,11 @@ const ModalRoot = styled.div`
   color: grey;
   font-size: 15px;
   background-color: rgba(255, 255, 255, 0.8);
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    width: 80%;
+    height: fit-content;
+    font-size: 10px;
+  }
 `;
 
 const ModalButton = styled.button`

@@ -10,6 +10,25 @@ const CardContainer = styled.div`
   margin: 10px;
   box-sizing: border-box;
   flex-basis: 30%;
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    flex-basis: 80%;
+    width: 100%;
+    margin: 5px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 1200px) {
+    flex-basis: 30%;
+  }
+
+  @media screen and (min-width: 1201px) {
+    flex-basis: 30%;
+    margin: 10px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
 `;
 
 const CardContent = styled.div`
@@ -20,11 +39,42 @@ const CardContent = styled.div`
   flex-direction: column;
   margin-right: 5px;
   margin-left: 5px;
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    flex: 3;
+  }
+
+  @media screen and (min-width: 1201px) {
+    flex: 2;
+  }
+`;
+
+const Img = styled.img`
+  width: 100%;
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    width: 60%;
+    flex: 1;
+  }
+  @media screen and (min-width: 1201px) {
+    width: 60%;
+    flex: 1;
+  }
 `;
 
 const CardTitle = styled.h4`
   margin: 0.5em;
   padding: 0;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    font-size: 10px;
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 1200px) {
+    font-size: 12px;
+  }
+  @media screen and (min-width: 1201px) {
+    font-size: 1rem;
+  }
 `;
 
 const CardParagraph = styled.p`
@@ -33,7 +83,7 @@ const CardParagraph = styled.p`
 
 const Card = ({ img, link }) => (
   <CardContainer>
-    <img src={img} alt="alt-foto" />
+    <Img src={img} alt="alt-foto" />
     <CardContent>
       <CardTitle>Consectetur adipiscing elit</CardTitle>
       <CardParagraph>Dignissim diam quis enim lobortis</CardParagraph>

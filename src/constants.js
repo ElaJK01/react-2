@@ -13,17 +13,34 @@ export const imgList = [
 ];
 
 export const cardButtonLinks = [
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
-  "#",
+  "/card1",
+  "/card2",
+  "/card3",
+  "/card4",
+  "/card5",
+  "/card6",
+  "/card7",
+  "/card8",
+  "/card9",
+  "/card10",
+  "/card11",
 ];
 
 export const DOTS = "...";
+
+export const footerLinks = [
+  { title: "Contact", link: "/contactUs" },
+  { title: "Privacy", link: "/privacy" },
+  { title: "Security", link: "/Security" },
+  { title: "More", link: "/more" },
+  { title: "Lorem ipsum", link: "/lorem" },
+  { title: "Lorem", link: "'ipsum" },
+];
+
+export const navButtonList = [
+  { title: "Home", link: "/" },
+  { title: "About", link: "/about" },
+  { title: "Contact", link: "/contact" },
+  { title: "Gardening Teams", link: "/teams" },
+  { title: "Players", link: "/players" },
+];

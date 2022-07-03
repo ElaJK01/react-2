@@ -6,6 +6,7 @@ import {
 } from "./fakePlayersFunctions";
 import { teamFakeNameGenerator } from "./teamFakeNameGenerator";
 import { teamFakeDescription } from "./teamFakeDescription";
+import { encase } from "fluture";
 
 const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 2)), 1);
 
@@ -41,3 +42,8 @@ export const getTeams = async (numberOfPlayers, numberOfTeams) => {
     console.error("no teams");
   }
 };
+
+// export const getTeams = (numberOfPlayers, numberOfTeams) =>
+//   range(0, numberOfTeams)
+//   |> map(getPlayers(numberOfPlayers))
+//   |> map(addTeamName);

@@ -14,12 +14,24 @@ const Button = styled.a`
   color: gray;
   font-size: 10px;
   text-align: center;
+  :hover {
+    background: white;
+    color: black;
+  }
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    font-size: 0.6rem;
+    width: 50%;
+  }
+  @media screen and (min-width: 769px) and (max-width: 1200px) {
+    font-size: 0.6rem;
+    width: 35%;
+  }
+  @media screen and (min-width: 1201px) {
+    width: 50%;
+    font-size: 0.8rem;
+  }
 `;
 
-const CardButton = ({ link }) => (
-  <Button className="link card-content__btn" href={link}>
-    More Info
-  </Button>
-);
+const CardButton = ({ link }) => <Button href={link}>More Info</Button>;
 
 export default CardButton;

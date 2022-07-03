@@ -50,6 +50,15 @@ const Teams = () => {
     |> lastly(encase(setLoading)(false))
     |> fork(() => setError(true))(setTeamsList);
 
+  // const fetchTeams = () =>
+  //   encase(setError)(false)
+  //   |> and(encase(setLoading)(true))
+  //   |> and(attemptP(delay))
+  //   |> and(encase(fnCurriedTeams)(20))
+  //   |> map(sortByTeamName)
+  //   |> lastly(encase(setLoading)(false))
+  //   |> fork(() => setError(true))(setTeamsList);
+
   useEffect(() => fetchTeams(), [setTeamsList]);
 
   const currentDataCount = () => {

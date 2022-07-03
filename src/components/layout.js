@@ -2,6 +2,9 @@ import React from "react";
 import Header from "./header";
 import Footer from "./footer";
 import styled from "styled-components";
+import { footerLinks } from "../constants";
+
+const links = footerLinks;
 
 const NavigationWrapper = styled.div`
   min-height: 100vh;
@@ -14,7 +17,7 @@ const Layout = ({ children }) => (
     <Header />
     <NavigationWrapper>
       <main>{children}</main>
-      <Footer />
+      <Footer linksList={links} />
     </NavigationWrapper>
   </>
 );
