@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { map } from "ramda";
+import { indexOf, map } from "ramda";
 
 const NavbarRoot = styled.nav`
   background: whitesmoke;
@@ -46,7 +46,11 @@ const NavButton = styled(Link)`
 const Navbar = ({ navButtonList }) => (
   <NavbarRoot>
     {navButtonList
-      |> map((el) => <NavButton to={el.link}>{el.title}</NavButton>)}
+      |> map((el) => (
+        <NavButton key={indexOf(el, navButtonList)} to={el.link}>
+          {el.title}
+        </NavButton>
+      ))}
   </NavbarRoot>
 );
 

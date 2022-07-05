@@ -6,7 +6,16 @@ import {
 } from "./fakePlayersFunctions";
 import { teamFakeNameGenerator } from "./teamFakeNameGenerator";
 import { teamFakeDescription } from "./teamFakeDescription";
-import { encase } from "fluture";
+import {
+  encase,
+  chain,
+  resolve,
+  isFuture,
+  node,
+  done,
+  attempt,
+  fork,
+} from "fluture";
 
 const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 2)), 1);
 
@@ -30,20 +39,10 @@ const addTeamName = (el) => ({
   description: teamFakeDescription(),
 });
 
-export const getTeams = async (numberOfPlayers, numberOfTeams) => {
-  try {
-    const players = await Promise.all(
+export const getTeams = (numberOfPlayers, numberOfTeams) =>
+  attempt(
+    () =>
       range(0, numberOfTeams)
-        |> map(async () => await getPlayers(numberOfPlayers))
-    );
-
-    return players |> map(addTeamName);
-  } catch {
-    console.error("no teams");
-  }
-};
-
-// export const getTeams = (numberOfPlayers, numberOfTeams) =>
-//   range(0, numberOfTeams)
-//   |> map(getPlayers(numberOfPlayers))
-//   |> map(addTeamName);
+      |> map(() => getPlayers(numberOfPlayers))
+      |> map(addTeamName)
+  );

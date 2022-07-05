@@ -38,26 +38,14 @@ const Teams = () => {
 
   const sortByTeamName = sortBy(prop("teamName"));
 
-  const curriedGetTeams = getTeams |> curryN(2);
-  const fnCurriedTeams = curriedGetTeams(11);
-
   const fetchTeams = () =>
     encase(setError)(false)
     |> and(encase(setLoading)(true))
     |> and(attemptP(delay))
-    |> and(encaseP(fnCurriedTeams)(200))
+    |> and(getTeams(11, 200))
     |> map(sortByTeamName)
     |> lastly(encase(setLoading)(false))
     |> fork(() => setError(true))(setTeamsList);
-
-  // const fetchTeams = () =>
-  //   encase(setError)(false)
-  //   |> and(encase(setLoading)(true))
-  //   |> and(attemptP(delay))
-  //   |> and(encase(fnCurriedTeams)(20))
-  //   |> map(sortByTeamName)
-  //   |> lastly(encase(setLoading)(false))
-  //   |> fork(() => setError(true))(setTeamsList);
 
   useEffect(() => fetchTeams(), [setTeamsList]);
 

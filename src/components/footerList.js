@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { map } from "ramda";
+import { indexOf, map } from "ramda";
 import Link from "./link";
 
 const List = styled.div`
@@ -17,7 +17,7 @@ const FooterList = ({ list }) => {
     <List>
       {map(
         (el) => (
-          <Link href={el.link} name={el.title} />
+          <Link key={indexOf(el, list)} href={el.link} name={el.title} />
         ),
         list
       )}

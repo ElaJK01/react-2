@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { add, divide, map, range, subtract } from "ramda";
+import { add, divide, indexOf, map, range, subtract } from "ramda";
 import { DOTS } from "../constants";
 import styled, { css } from "styled-components";
 
@@ -29,7 +29,6 @@ const disabledStyles = css`
 
 const ArrowUp = styled.button`
   ${({ disabled }) => disabled && disabledStyles}
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,7 +46,7 @@ const ArrowUp = styled.button`
   }
 `;
 
-const ArrowDown = styled.a`
+const ArrowDown = styled.button`
   ${({ disabled }) => disabled && disabledStyles}
   display: flex;
   justify-content: center;
@@ -77,6 +76,9 @@ const FloatingPanelButton = styled.button`
   color: gray;
   font-size: 10px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 80%;
   color: black;
   text-decoration: none;
@@ -117,7 +119,7 @@ const paginationCount = (
     pageNumbers
   );
 
-  const shouldShowLeftDots = leftBorderPagesIndex > 2;
+  const shouldShowLeftDots = leftBorderPagesIndex >= 2;
   const shouldShowRightDots = rightBorderPagesIndex < pageNumbers - 2;
 
   const firstPageIndex = 1;
@@ -182,7 +184,10 @@ const Pagination = (props) => {
       {map((page) => {
         if (page === DOTS) {
           return (
-            <FloatingPanelButton active={currentPage === page}>
+            <FloatingPanelButton
+              key={indexOf(page, paginationRange)}
+              active={currentPage === page}
+            >
               &#8230;
             </FloatingPanelButton>
           );
@@ -190,7 +195,7 @@ const Pagination = (props) => {
         return (
           <FloatingPanelButton
             onClick={() => paginate(page)}
-            key={page}
+            key={indexOf(page, paginationRange)}
             active={currentPage === page}
           >
             {page}

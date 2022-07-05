@@ -42,11 +42,13 @@ const Players = () => {
     encase(setError)(false)
     |> and(encase(setLoading)(true))
     |> and(attemptP(delay))
-    |> and(encase(getPlayers)(20))
+    |> and(encase(getPlayers)(200))
     |> map(sortBySurname)
     |> map(sortByName)
     |> lastly(encase(setLoading)(false))
     |> fork(() => setError(true))(setPlayersList);
+
+  console.log("playersList", playersList);
 
   useEffect(() => {
     fetchPlayers();
@@ -59,6 +61,8 @@ const Players = () => {
   };
 
   const currentData = currentDataCount();
+
+  console.log("currentData", currentData);
 
   const handlePaginate = (pageNumber) => setCurrentPage(pageNumber);
 
