@@ -6,7 +6,7 @@ import {
 } from "./fakePlayersFunctions";
 import { teamFakeNameGenerator } from "./teamFakeNameGenerator";
 import { teamFakeDescription } from "./teamFakeDescription";
-import { resolve, attempt, rejectAfter, after } from "fluture";
+import { attempt, rejectAfter, after } from "fluture";
 
 const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 2)), 1);
 
