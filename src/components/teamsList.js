@@ -77,8 +77,8 @@ const TeamsList = ({ list }) => {
 
   return (
     <ListContainer>
-      {map(
-        (el) => (
+      {list
+        |> map((el) => (
           <Card key={indexOf(el, list)}>
             <CardContent>
               <CardTitle> {prop("teamName", el)}</CardTitle>
@@ -137,9 +137,7 @@ const TeamsList = ({ list }) => {
               />
             )}
           </Card>
-        ),
-        list
-      )}
+        ))}
     </ListContainer>
   );
 };

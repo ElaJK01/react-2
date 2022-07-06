@@ -75,8 +75,8 @@ const PersonsList = ({ list }) => {
 
   return (
     <ListRoot>
-      {map(
-        (el) => (
+      {list
+        |> map((el) => (
           <Card key={indexOf(el, list)}>
             <CardContent>
               <CardTitle>
@@ -130,9 +130,7 @@ const PersonsList = ({ list }) => {
               )}
             </CardContent>
           </Card>
-        ),
-        list
-      )}
+        ))}
     </ListRoot>
   );
 };

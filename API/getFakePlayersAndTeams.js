@@ -6,26 +6,14 @@ import {
 } from "./fakePlayersFunctions";
 import { teamFakeNameGenerator } from "./teamFakeNameGenerator";
 import { teamFakeDescription } from "./teamFakeDescription";
-import {
-  encase,
-  chain,
-  resolve,
-  isFuture,
-  node,
-  done,
-  attempt,
-  fork,
-} from "fluture";
+import { resolve, attempt, rejectAfter, after } from "fluture";
 
 const shouldThrowError = () => lt(Math.floor(multiply(Math.random(), 2)), 1);
 
 export const delay = () =>
-  new Promise((resolve, reject) =>
-    setTimeout(
-      () => (shouldThrowError() ? reject("network error") : resolve()),
-      Math.floor(Math.random() * 2000) + 1000
-    )
-  );
+  shouldThrowError()
+    ? rejectAfter(Math.floor(Math.random() * 2000) + 1000)("network error")
+    : after(Math.floor(Math.random() * 2000) + 1000)("done");
 
 export const getPlayers = (numberOfPlayers) =>
   range(0, numberOfPlayers)

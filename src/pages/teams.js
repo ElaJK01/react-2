@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { add, curryN, length, map, multiply, prop, slice, sortBy } from "ramda";
+import { add, length, map, multiply, prop, slice, sortBy } from "ramda";
 import { delay, getTeams } from "../../API/getFakePlayersAndTeams";
 import Pagination from "../components/pagination";
 import TeamsList from "../components/teamsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
-import { and, attemptP, encase, encaseP, fork, lastly } from "fluture";
+import { and, encase, fork, lastly } from "fluture";
 import styled from "styled-components";
 
 const Section = styled.div`
@@ -41,7 +41,7 @@ const Teams = () => {
   const fetchTeams = () =>
     encase(setError)(false)
     |> and(encase(setLoading)(true))
-    |> and(attemptP(delay))
+    |> and(delay())
     |> and(getTeams(11, 200))
     |> map(sortByTeamName)
     |> lastly(encase(setLoading)(false))

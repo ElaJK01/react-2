@@ -5,7 +5,7 @@ import Pagination from "../components/pagination";
 import PersonsList from "../components/personsList";
 import Error from "../components/error";
 import Loading from "../components/loading";
-import { encase, fork, and, attemptP, lastly } from "fluture";
+import { encase, fork, and, lastly } from "fluture";
 import styled from "styled-components";
 
 const Section = styled.div`
@@ -41,14 +41,12 @@ const Players = () => {
   const fetchPlayers = () =>
     encase(setError)(false)
     |> and(encase(setLoading)(true))
-    |> and(attemptP(delay))
-    |> and(encase(getPlayers)(200))
+    |> and(delay())
+    |> and(encase(getPlayers)(2000))
     |> map(sortBySurname)
     |> map(sortByName)
     |> lastly(encase(setLoading)(false))
     |> fork(() => setError(true))(setPlayersList);
-
-  console.log("playersList", playersList);
 
   useEffect(() => {
     fetchPlayers();
@@ -61,8 +59,6 @@ const Players = () => {
   };
 
   const currentData = currentDataCount();
-
-  console.log("currentData", currentData);
 
   const handlePaginate = (pageNumber) => setCurrentPage(pageNumber);
 
