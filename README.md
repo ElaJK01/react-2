@@ -1,8 +1,6 @@
 
 # React 2 - Gardening Teams App
 
-***
-
 This project is a React-based application developed as part of a frontend training program aimed at deepening knowledge and skills in building React applications. The primary focus was to explore and effectively use the following libraries:
 
 * **Ramda.js** – A functional programming library that simplifies data manipulation with a rich set of utilities for handling arrays, objects, and functions.
@@ -13,9 +11,6 @@ This project is a React-based application developed as part of a frontend traini
 * Clone this repository by using `git clone` command in your terminal.
 * In app folder in terminal use `yarn install`.
 * In terminal use `yarn dev`.
-
-
-## Formal requirements
 
 ***TECHNICAL REQUIREMENTS***
 * take advantage of Fluture **wherever possible**,
