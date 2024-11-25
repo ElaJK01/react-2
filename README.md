@@ -12,6 +12,7 @@ This project is a React-based application developed as part of a frontend traini
 * In app folder in terminal use `yarn install`.
 * In terminal use `yarn dev`.
 
+##
 ***TECHNICAL REQUIREMENTS***
 * take advantage of Fluture **wherever possible**,
 * loading and error states should be handled via Fluture,
